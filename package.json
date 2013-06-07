@@ -12,7 +12,10 @@
   },
   "homepage": "https://github.com/thlorenz/parse-link-header",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "~1.0.3",
+    "tap": "~0.4.3"
+  },
   "keywords": [],
   "author": {
     "name": "Thorsten Lorenz",
