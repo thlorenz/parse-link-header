@@ -11,7 +11,9 @@
     "url": "git://github.com/thlorenz/parse-link-header.git"
   },
   "homepage": "https://github.com/thlorenz/parse-link-header",
-  "dependencies": {},
+  "dependencies": {
+    "xtend": "~2.0.5"
+  },
   "devDependencies": {
     "tape": "~1.0.3",
     "tap": "~0.4.3"

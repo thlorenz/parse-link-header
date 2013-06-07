@@ -1,33 +1,40 @@
 'use strict';
 
 var qs = require('querystring')
-  , url = require('url');
+  , url = require('url')
+  , xtend = require('xtend');
 
-module.exports = function (link) {
-  if (!link) return null;
-
-  var headers =  link.replace(/[<>]/g, '').split(',');
-  if (headers.length < 2) return null;
-
-  var parts1  =  headers[0].split(';')
-    , parts2  =  headers[1].split(';')
-    ;
-
+function parseLink(link) {
   try {
-    // TODO: check partsx[1] to find actual 'next' and 'last'
-    var parsedNext = url.parse(parts1[0])
-      , parsedLast = url.parse(parts2[0])
+    var parts     =  link.split(';')
+      , linkUrl   =  parts.shift().replace(/[<>]/g, '')
+      , parsedUrl =  url.parse(linkUrl)
+      , qry       =  qs.parse(parsedUrl.query);
 
-    var qnext = qs.parse(parts1[0])
-      , qlast = qs.parse(parts2[0])
-      , nextPage = parseInt(qnext.page, 10)
-      , lastPage = parseInt(qlast.page, 10)
-
-    return { 
-        next: { link: parts1[0], page: nextPage, perPage: qnext['per_page'] }
-      , last: { link: parts2[0], page: lastPage, perPage: qlast['per_page'] }
-    };
+    var info = parts
+      .reduce(function (acc, p) {
+        // rel="next" => 1: rel 2: next
+        var m = p.match(/ *(.+) *= *"(.+)"/)
+        if (m) acc[m[1]] = m[2];
+        return acc;
+      }, {});
+    
+    info = xtend(qry, info);
+    info.url = linkUrl;
+    return info;
   } catch (e) {
     return null;
   }
+}
+
+module.exports = function (linkHeader) {
+   if (!linkHeader) return null;
+
+   return linkHeader.split(',')
+    .map(parseLink)
+    .filter(function (x) { return x && x.rel; })
+    .reduce(function (acc, x) {
+      acc[x.rel] = x;
+      return acc;
+    }, {});
 };
