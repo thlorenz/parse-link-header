@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/thlorenz/parse-link-header",
   "dependencies": {
-    "xtend": "~2.0.5"
+    "xtend": "~4.0.0"
   },
   "devDependencies": {
     "tape": "~1.0.3",
