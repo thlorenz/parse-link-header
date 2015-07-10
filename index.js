@@ -30,7 +30,7 @@ function parseLink(link) {
 module.exports = function (linkHeader) {
    if (!linkHeader) return null;
 
-   return linkHeader.split(',')
+   return linkHeader.split(/,\s*</)
     .map(parseLink)
     .filter(function (x) { return x && x.rel; })
     .reduce(function (acc, x) {

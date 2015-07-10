@@ -25,7 +25,7 @@ test('parsing a proper link header with next and last', function (t) {
           page: '3',
           per_page: '100',
           rel: 'last',
-          url: ' https://api.github.com/user/9287/repos?client_id=1&client_secret=2&page=3&per_page=100' } }
+          url: 'https://api.github.com/user/9287/repos?client_id=1&client_secret=2&page=3&per_page=100' } }
     , 'parses out link, page and perPage for next and last'
   )
   t.end()
@@ -50,12 +50,12 @@ test('parsing a proper link header with next, prev and last', function (t) {
         { page: '1',
           per_page: '100',
           rel: 'prev',
-          url: ' https://api.github.com/user/9287/repos?page=1&per_page=100' },
+          url: 'https://api.github.com/user/9287/repos?page=1&per_page=100' },
         last:
         { page: '5',
           per_page: '100',
           rel: 'last',
-          url: ' https://api.github.com/user/9287/repos?page=5&per_page=100' } }
+          url: 'https://api.github.com/user/9287/repos?page=5&per_page=100' } }
     , 'parses out link, page and perPage for next, prev and last'
   )
   t.end()
@@ -104,6 +104,23 @@ test('parsing a proper link header with next and properties besides rel', functi
           pet: 'cat',
           url: 'https://api.github.com/user/9287/repos?page=3&per_page=100' } }
     , 'parses out link, page and perPage for next and all other properties'
+  )
+  t.end()
+})
+
+test('parsing a proper link header with a comma in the url', function (t) {
+  var linkHeader = 
+    '<https://imaginary.url.notreal/?name=What,+me+worry; rel="next";'
+
+  var res = parse(linkHeader)
+  
+  t.deepEqual(
+      parse(linkHeader)
+    , { next:
+        { rel: 'next',
+          name: 'What, me worry',
+          url: 'https://imaginary.url.notreal/?name=What,+me+worry' } }
+    , 'correctly parses URL with comma'
   )
   t.end()
 })

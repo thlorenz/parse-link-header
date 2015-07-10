@@ -27,12 +27,12 @@ console.log(parsed);
      per_page: '100',
      rel: 'prev',
      pet: 'cat',
-     url: ' https://api.github.com/user/9287/repos?page=1&per_page=100' },
+     url: 'https://api.github.com/user/9287/repos?page=1&per_page=100' },
   last:
    { page: '5',
      per_page: '100',
      rel: 'last',
-     url: ' https://api.github.com/user/9287/repos?page=5&per_page=100' } }
+     url: 'https://api.github.com/user/9287/repos?page=5&per_page=100' } }
 ```
 
 ## Installation
