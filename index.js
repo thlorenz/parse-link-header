@@ -14,7 +14,7 @@ function parseLink(link) {
     var info = parts
       .reduce(function (acc, p) {
         // rel="next" => 1: rel 2: next
-        var m = p.match(/ *(.+) *= *"(.+)"/)
+        var m = p.match(/\s*(.+)\s*=\s*"?([^"]+)"?/)
         if (m) acc[m[1]] = m[2];
         return acc;
       }, {});

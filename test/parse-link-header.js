@@ -31,6 +31,33 @@ test('parsing a proper link header with next and last', function (t) {
   t.end()
 })
 
+test('handles unquoted relationships', function (t) {
+  var link = 
+    '<https://api.github.com/user/9287/repos?client_id=1&client_secret=2&page=2&per_page=100>; rel=next, ' + 
+    '<https://api.github.com/user/9287/repos?client_id=1&client_secret=2&page=3&per_page=100>; rel=last'
+
+  var res = parse(link)
+  t.deepEqual(
+      parse(link)
+    , { next:
+        { client_id: '1',
+          client_secret: '2',
+          page: '2',
+          per_page: '100',
+          rel: 'next',
+          url: 'https://api.github.com/user/9287/repos?client_id=1&client_secret=2&page=2&per_page=100' },
+        last:
+        { client_id: '1',
+          client_secret: '2',
+          page: '3',
+          per_page: '100',
+          rel: 'last',
+          url: 'https://api.github.com/user/9287/repos?client_id=1&client_secret=2&page=3&per_page=100' } }
+    , 'parses out link, page and perPage for next and last'
+  )
+  t.end()
+})
+
 test('parsing a proper link header with next, prev and last', function (t) {
   var linkHeader = 
     '<https://api.github.com/user/9287/repos?page=3&per_page=100>; rel="next", ' + 
