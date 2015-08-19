@@ -166,7 +166,7 @@ test('parsing a proper link header with a multi-word rel', function (t) {
         next: { rel: 'next',
           name: 'What, me worry',
           url: 'https://imaginary.url.notreal/?name=What,+me+worry' }}
-    , 'correctly parses URL with comma'
+    , 'correctly parses multi-word rels'
   )
   t.end()
 })
