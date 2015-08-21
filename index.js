@@ -35,7 +35,7 @@ module.exports = function (linkHeader) {
     .filter(function (x) { return x && x.rel; })
     .reduce(function (acc, x) {
       x.rel.split(/\s+/).forEach(function (rel) {
-        acc[rel] = xtend(x, {rel: rel});
+        acc[rel] = xtend(x, { rel: rel });
       });
 
       return acc;
