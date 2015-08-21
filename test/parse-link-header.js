@@ -151,3 +151,22 @@ test('parsing a proper link header with a comma in the url', function (t) {
   )
   t.end()
 })
+
+test('parsing a proper link header with a multi-word rel', function (t) {
+  var linkHeader =
+    '<https://imaginary.url.notreal/?name=What,+me+worry; rel="next page";'
+
+  var res = parse(linkHeader)
+
+  t.deepEqual(
+      parse(linkHeader)
+    , { page: { rel: 'page',
+          name: 'What, me worry',
+          url: 'https://imaginary.url.notreal/?name=What,+me+worry' },
+        next: { rel: 'next',
+          name: 'What, me worry',
+          url: 'https://imaginary.url.notreal/?name=What,+me+worry' }}
+    , 'correctly parses multi-word rels'
+  )
+  t.end()
+})
