@@ -4,6 +4,27 @@ var qs = require('querystring')
   , url = require('url')
   , xtend = require('xtend');
 
+function hasRel(x) {
+  return x && x.rel;
+}
+
+function intoRels (acc, x) {
+  function splitRel (rel) {
+    acc[rel] = xtend(x, { rel: rel });
+  }
+
+  x.rel.split(/\s+/).forEach(splitRel);
+
+  return acc;
+}
+
+function createObjects (acc, p) {
+  // rel="next" => 1: rel 2: next
+  var m = p.match(/\s*(.+)\s*=\s*"?([^"]+)"?/)
+  if (m) acc[m[1]] = m[2];
+  return acc;
+}
+
 function parseLink(link) {
   try {
     var parts     =  link.split(';')
@@ -12,12 +33,7 @@ function parseLink(link) {
       , qry       =  qs.parse(parsedUrl.query);
 
     var info = parts
-      .reduce(function (acc, p) {
-        // rel="next" => 1: rel 2: next
-        var m = p.match(/\s*(.+)\s*=\s*"?([^"]+)"?/)
-        if (m) acc[m[1]] = m[2];
-        return acc;
-      }, {});
+      .reduce(createObjects, {});
     
     info = xtend(qry, info);
     info.url = linkUrl;
@@ -28,16 +44,10 @@ function parseLink(link) {
 }
 
 module.exports = function (linkHeader) {
-   if (!linkHeader) return null;
+  if (!linkHeader) return null;
 
-   return linkHeader.split(/,\s*</)
-    .map(parseLink)
-    .filter(function (x) { return x && x.rel; })
-    .reduce(function (acc, x) {
-      x.rel.split(/\s+/).forEach(function (rel) {
-        acc[rel] = xtend(x, { rel: rel });
-      });
-
-      return acc;
-    }, {});
+  return linkHeader.split(/,\s*</)
+   .map(parseLink)
+   .filter(hasRel)
+   .reduce(intoRels, {});
 };
