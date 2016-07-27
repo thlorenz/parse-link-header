@@ -170,3 +170,26 @@ test('parsing a proper link header with a multi-word rel', function (t) {
   )
   t.end()
 })
+
+test('multiple links for a single rel rel', function (t) {
+  var linkHeader =
+    '<http://example.com/one>; rel="service",' +
+    '<http://example.com/two>; rel="service",' +
+    '<http://example.com/three>; rel="service"'
+
+  var res = parse(linkHeader)
+
+  t.deepEqual(
+      parse(linkHeader)
+    , { service: [
+          { rel: 'service',
+            url: 'http://example.com/one' },
+          { rel: 'service',
+            url: 'http://example.com/two' },
+          { rel: 'service',
+            url: 'http://example.com/three' }
+        ]}
+    , 'multiple links for a single rel'
+  )
+  t.end()
+})
