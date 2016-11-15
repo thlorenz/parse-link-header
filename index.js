@@ -10,7 +10,14 @@ function hasRel(x) {
 
 function intoRels (acc, x) {
   function splitRel (rel) {
-    acc[rel] = xtend(x, { rel: rel });
+    if (acc[rel]) {
+      if (!Array.isArray(acc[rel])) {
+        acc[rel] = [acc[rel]];
+      }
+      acc[rel].push(xtend(x, { rel: rel }));
+    } else {
+      acc[rel] = xtend(x, { rel: rel });
+    }
   }
 
   x.rel.split(/\s+/).forEach(splitRel);
