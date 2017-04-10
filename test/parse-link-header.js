@@ -137,7 +137,7 @@ test('parsing a proper link header with next and properties besides rel', functi
 
 test('parsing a proper link header with a comma in the url', function (t) {
   var linkHeader = 
-    '<https://imaginary.url.notreal/?name=What,+me+worry; rel="next";'
+    '<https://imaginary.url.notreal/?name=What,+me+worry>; rel="next";'
 
   var res = parse(linkHeader)
   
@@ -154,7 +154,7 @@ test('parsing a proper link header with a comma in the url', function (t) {
 
 test('parsing a proper link header with a multi-word rel', function (t) {
   var linkHeader =
-    '<https://imaginary.url.notreal/?name=What,+me+worry; rel="next page";'
+    '<https://imaginary.url.notreal/?name=What,+me+worry>; rel="next page";'
 
   var res = parse(linkHeader)
 
@@ -167,6 +167,22 @@ test('parsing a proper link header with a multi-word rel', function (t) {
           name: 'What, me worry',
           url: 'https://imaginary.url.notreal/?name=What,+me+worry' }}
     , 'correctly parses multi-word rels'
+  )
+  t.end()
+})
+
+test('parsing a proper link header with matrix parameters', function (t) {
+  var linkHeader =
+    '<https://imaginary.url.notreal/segment;foo=bar;baz/item?name=What,+me+worry>; rel="next";'
+
+  var res = parse(linkHeader)
+
+  t.deepEqual(
+      parse(linkHeader)
+    , { next: { rel: 'next',
+          name: 'What, me worry',
+          url: 'https://imaginary.url.notreal/segment;foo=bar;baz/item?name=What,+me+worry' }}
+    , 'correctly parses url with matrix parameters'
   )
   t.end()
 })
