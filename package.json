@@ -1,6 +1,6 @@
 {
   "name": "parse-link-header",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parses a link header and returns paging information for each contained link.",
   "main": "index.js",
   "scripts": {
