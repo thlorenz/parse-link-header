@@ -1,8 +1,7 @@
 'use strict';
 
 var qs = require('querystring')
-  , url = require('url')
-  , xtend = require('xtend');
+  , url = require('url');
 
 function hasRel(x) {
   return x && x.rel;
@@ -10,7 +9,7 @@ function hasRel(x) {
 
 function intoRels (acc, x) {
   function splitRel (rel) {
-    acc[rel] = xtend(x, { rel: rel });
+    acc[rel] = Object.assign({}, x, { rel: rel});
   }
 
   x.rel.split(/\s+/).forEach(splitRel);
@@ -38,7 +37,7 @@ function parseLink(link) {
     var info = parts
       .reduce(createObjects, {});
     
-    info = xtend(qry, info);
+    info = Object.assign(qry, info);
     info.url = linkUrl;
     return info;
   } catch (e) {
