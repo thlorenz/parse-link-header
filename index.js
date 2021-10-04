@@ -26,7 +26,11 @@ function parseLink(link) {
     var m         =  link.match(/<?([^>]*)>(.*)/)
       , linkUrl   =  m[1]
       , parts     =  m[2].split(';')
-      , qry       =  Object.fromEntries([...new URL(linkUrl).searchParams]);
+      , qry       = {};
+
+    for (const [key, value] of new URL(linkUrl).searchParams) {
+      qry[key] = value;
+    }
 
     parts.shift();
 
