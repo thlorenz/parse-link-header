@@ -32,7 +32,7 @@
   },
   "license": "MIT",
   "engine": {
-    "node": ">=0.6"
+    "node": ">=10"
   },
   "testling": {
     "files": "test/*.js",
