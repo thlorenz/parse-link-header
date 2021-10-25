@@ -56,8 +56,8 @@ function checkHeader(linkHeader){
     if (PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED) {
       throw new Error('Input string too long, it should be under ' + PARSE_LINK_HEADER_MAXLEN + ' characters.');
     } else {
-      return false;
-    }
+        return false;
+      }
   }
   return true;
 }
