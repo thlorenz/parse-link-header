@@ -1,5 +1,8 @@
 'use strict';
 
+const PARSE_LINK_HEADER_MAXLEN = parseInt(process.env.PARSE_LINK_HEADER_MAXLEN) || 2000;
+const PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED = process.env.PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED != null
+
 function hasRel(x) {
   return x && x.rel;
 }
@@ -45,8 +48,21 @@ function parseLink(link) {
   }
 }
 
+function checkHeader(linkHeader){
+  if (!linkHeader) return false;
+
+  if (linkHeader.length > PARSE_LINK_HEADER_MAXLEN) {
+    if (PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED) {
+      throw new Error('Input string too long, it should be under ' + PARSE_LINK_HEADER_MAXLEN + ' characters.');
+    } else {
+        return false;
+      }
+  }
+  return true;
+}
+
 module.exports = function (linkHeader) {
-  if (!linkHeader) return null;
+  if (!checkHeader(linkHeader)) return null;
 
   return linkHeader.split(/,\s*</)
    .map(parseLink)

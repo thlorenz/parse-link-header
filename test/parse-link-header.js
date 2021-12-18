@@ -186,3 +186,21 @@ test('parsing a proper link header with matrix parameters', function (t) {
   )
   t.end()
 })
+
+test('parsing an extremely long link header', function (t) {
+  function payload (n) {
+    var ret = ""
+    for (var i = 0; i < n; i++) {
+      ret += " "
+    }
+    return ret
+    }
+  var linkHeader = '; rel="' + payload(10000) + '",'
+
+  t.equal(
+      parse(linkHeader)
+    , null
+    , 'correctly returns null when dealing with an extremely long link header'
+  )
+  t.end()
+})
