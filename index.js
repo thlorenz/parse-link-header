@@ -29,9 +29,11 @@ function parseLink(link) {
     var m         =  link.match(/<?([^>]*)>(.*)/)
       , linkUrl   =  m[1]
       , parts     =  m[2].split(';')
-      , qry       = {};
+      , qry       = {}
+      // The origin is unused but it's required to parse relative URLs
+      , url       = new URL(linkUrl, 'https://example.com');
 
-    for (const [key, value] of new URL(linkUrl).searchParams) {
+    for (const [key, value] of url.searchParams) {
       qry[key] = value;
     }
 
