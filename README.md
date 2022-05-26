@@ -48,11 +48,11 @@ the `rel` property that contains information about each link.
 
 ### Environmental Variables
 
-To avoid redundantly parsing of extremely long (invalid) input, the package uses 2 env variabes:
+To avoid redundantly parsing of extremely long (invalid) input, the package uses 2 env variables:
 
 `PARSE_LINK_HEADER_MAXLEN` - Sets the number of characters the input should be limited to - longer inputs will not be handled. Defaults to `2000`.
 
-`PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED` - Defines behavior for when the `PARSE_LINK_HEADER_MAXLEN` parameter is exceeded. if defined, an error will be thrown; if it's `null`, the function fails silently by returning `null`. Defaults to `null`.
+`PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED` - Defines behavior for when the `PARSE_LINK_HEADER_MAXLEN` parameter is exceeded. If defined, an error will be thrown; if it's `null`, the function fails silently by returning `null`. Defaults to `null`.
 
 ### Formatting a link header
 
