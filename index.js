@@ -4,8 +4,20 @@ var qs = require('querystring')
   , url = require('url')
   , xtend = require('xtend');
 
-const PARSE_LINK_HEADER_MAXLEN = parseInt(process.env.PARSE_LINK_HEADER_MAXLEN) || 2000;
-const PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED = process.env.PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED != null
+var PARSE_LINK_HEADER_MAXLEN = 2000;
+var PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED = false;
+
+// Read each option independently so bundlers can replace either direct read.
+try {
+  PARSE_LINK_HEADER_MAXLEN = parseInt(process.env.PARSE_LINK_HEADER_MAXLEN) || 2000;
+} catch (err) {
+  // Browsers and partial process shims use the defaults.
+}
+try {
+  PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED = process.env.PARSE_LINK_HEADER_THROW_ON_MAXLEN_EXCEEDED != null
+} catch (err) {
+  // The throw option is optional too.
+}
 
 function hasRel(x) {
   return x && x.rel;
